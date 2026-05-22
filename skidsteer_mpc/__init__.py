@@ -23,9 +23,10 @@ from .can_bus import (TrackCmdCodec, CmdReceiver, MpcStatusCodec, crc8_autosar,
                       FLAG_SOLVER_OK, FLAG_TIMEOUT, FLAG_BUFFERED, FLAG_CLAMPED)
 from .simulator import ClosedLoopSimulator, SimLog, FaultInjector
 from .plotting import MpcPlotter
+from .animation import MpcAnimator
 
 __all__ = [
-    "ModelParams", "MPCConfig", "SupervisorConfig", "ObstacleSpec", "CanConfig",
+    "ModelParams", "MpcAnimatior", "MPCConfig", "SupervisorConfig", "ObstacleSpec", "CanConfig",
     "SimConfig", "PlotStyle", "SkidSteerModel", "ReferencePath", "SCurveLaneChange",
     "StraightWithSwerve", "ConstantRadiusCircle", "Obstacle", "Controller",
     "ScipyMPC", "CasadiMPC", "SolveResult", "SolveStatus", "CommandGovernor",

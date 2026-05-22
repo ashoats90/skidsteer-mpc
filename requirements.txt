@@ -4,3 +4,4 @@ matplotlib
 casadi
 pytest
 ruff
+pillow

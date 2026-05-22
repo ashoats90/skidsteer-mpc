@@ -64,3 +64,24 @@ python run_demo.py
 `run_demo.py` reproduces the original procedural results exactly: nominal run
 RMS 8.3 cm / peak 40.6 cm / 19 saturated samples / 1.100 m clearance; supervised
 run DEGRADED=10 / SAFE_STOP=40 / clearance maintained.
+
+## Animation / replay GIFs
+
+You can turn any `SimLog` into a replay GIF:
+
+```python
+from skidsteer_mpc import MpcAnimator
+
+log = ClosedLoopSimulator(model, ctrl, gov, ref, obs, MPCConfig()).run()
+
+MpcAnimator(log, outdir="out").save_gif(
+    filename="nominal_replay.gif",
+    fps=12,
+    every=2,
+    dpi=120,
+)
+```
+
+`every` skips frames to keep the file size reasonable. For example, `every=2`
+uses every other simulation sample.
+
