@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skidsteer-mpc"
+version = "0.1.0"
+description = "Object-oriented skid-steer nonlinear MPC simulation with safety supervisor"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "casadi",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["skidsteer_mpc*"]
+
+[tool.ruff]
+line-length = 100
