@@ -129,8 +129,14 @@ class MpcAnimator:
         ax.plot(x, y, linewidth=1.2, alpha=0.25, label="full trajectory")
 
         obs = L.obstacle.spec
-        ax.add_patch(Circle((obs.x, obs.y), obs.radius, alpha=0.35, label="obstacle"))
-        ax.add_patch(Circle((obs.x, obs.y), obs.r_safe, fill=False, linestyle="--", linewidth=1.5))
+        obstacle_xy = getattr(L, "obstacle_xy", None)
+        obs_body = Circle((obs.x, obs.y), obs.radius, alpha=0.35, label="obstacle")
+        obs_safe = Circle((obs.x, obs.y), obs.r_safe, fill=False, linestyle="--", linewidth=1.5)
+        ax.add_patch(obs_body)
+        ax.add_patch(obs_safe)
+
+        if obstacle_xy is not None:
+            ax.plot(obstacle_xy[:, 0], obstacle_xy[:, 1], ":", linewidth=1.5, alpha=0.8, label="obstacle path")
 
         # Dynamic artists
         recent_line, = ax.plot([], [], linewidth=3.0, label="recent trail")
@@ -183,10 +189,14 @@ class MpcAnimator:
             preview_line.set_data([], [])
             mode_text.set_text("")
             time_text.set_text("")
-            return recent_line, point, preview_line, body, mode_text, time_text
+            return recent_line, point, preview_line, body, mode_text, time_text, obs_body, obs_safe
 
         def update(frame_idx):
             i = int(idx[frame_idx])
+
+            if obstacle_xy is not None:
+                obs_body.center = (obstacle_xy[i, 0], obstacle_xy[i, 1])
+                obs_safe.center = (obstacle_xy[i, 0], obstacle_xy[i, 1])
 
             lo = max(0, i - trail_n)
             recent_line.set_data(x[lo:i + 1], y[lo:i + 1])
@@ -214,7 +224,7 @@ class MpcAnimator:
             mode_text.set_text(f"mode: {mode_name}")
             time_text.set_text(f"t = {L.t[i]:.1f} s")
 
-            return recent_line, point, preview_line, body, mode_text, time_text
+            return recent_line, point, preview_line, body, mode_text, time_text, obs_body, obs_safe
 
         anim = FuncAnimation(
             fig,

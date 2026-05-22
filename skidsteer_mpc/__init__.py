@@ -15,8 +15,8 @@ from .config import (ModelParams, MPCConfig, SupervisorConfig, ObstacleSpec,
                      CanConfig, SimConfig, PlotStyle)
 from .model import SkidSteerModel
 from .reference import (ReferencePath, SCurveLaneChange, StraightWithSwerve,
-                        ConstantRadiusCircle)
-from .obstacle import Obstacle
+                        ConstantRadiusCircle, SinusoidalTrack)
+from .obstacle import Obstacle, TimedMovingObstacle
 from .controller import Controller, ScipyMPC, CasadiMPC, SolveResult, SolveStatus
 from .supervisor import CommandGovernor, CtrlMode, FaultCode, CommandOutput
 from .can_bus import (TrackCmdCodec, CmdReceiver, MpcStatusCodec, crc8_autosar,
@@ -24,6 +24,7 @@ from .can_bus import (TrackCmdCodec, CmdReceiver, MpcStatusCodec, crc8_autosar,
 from .simulator import ClosedLoopSimulator, SimLog, FaultInjector
 from .plotting import MpcPlotter
 from .animation import MpcAnimator
+from .safety import ProximitySafetyConfig, ProximitySpeedLimiter
 
 __all__ = [
     "ModelParams", "MpcAnimatior", "MPCConfig", "SupervisorConfig", "ObstacleSpec", "CanConfig",
@@ -33,5 +34,6 @@ __all__ = [
     "CtrlMode", "FaultCode", "CommandOutput", "TrackCmdCodec", "CmdReceiver",
     "MpcStatusCodec", "crc8_autosar", "FLAG_SOLVER_OK", "FLAG_TIMEOUT",
     "FLAG_BUFFERED", "FLAG_CLAMPED", "ClosedLoopSimulator", "SimLog",
-    "FaultInjector", "MpcPlotter",
+    "FaultInjector", "MpcPlotter", "SinusoidalTrack", "ProximitySafetyConfig", "ProximitySpeedLimiter",
+    "TimedMovingObstacle", "ProximitySafetyConfig", "ProximitySpeedLimiter",
 ]
