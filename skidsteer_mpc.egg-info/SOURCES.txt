@@ -1,6 +1,7 @@
 README.md
 pyproject.toml
 skidsteer_mpc/__init__.py
+skidsteer_mpc/animation.py
 skidsteer_mpc/can_bus.py
 skidsteer_mpc/config.py
 skidsteer_mpc/controller.py

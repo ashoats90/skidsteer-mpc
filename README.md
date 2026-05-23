@@ -85,3 +85,58 @@ MpcAnimator(log, outdir="out").save_gif(
 `every` skips frames to keep the file size reasonable. For example, `every=2`
 uses every other simulation sample.
 
+## Additional validation scenarios
+
+This project can also run extra scenarios:
+
+1. A nominal S-curve lane change.
+2. A sinusoidal curved-track path.
+3. A sinusoidal path with a proximity-based safety envelope.
+
+The proximity safety layer reduces longitudinal velocity as the vehicle gets
+closer to the obstacle and latches a stop when the vehicle is within the stop
+threshold.
+
+```python
+from skidsteer_mpc.safety import ProximitySafetyConfig, ProximitySpeedLimiter
+
+limiter = ProximitySpeedLimiter(
+    obs,
+    ProximitySafetyConfig(
+        stop_distance=1.0,
+        slow_distance=4.0,
+        latch_stop=True,
+    ),
+)
+
+sim = ClosedLoopSimulator(
+    model, ctrl, gov, ref, obs, mpc_cfg, SimConfig(),
+    safety_filter=limiter,
+)
+```
+
+Run:
+
+```bash
+python run_additional_scenarios.py
+```
+## Dynamic obstacle scenarios
+
+Two dynamic obstacle scenarios are included:
+
+1. `dynamic_obstacle_early_avoid`
+   - The obstacle moves into the path well ahead of the vehicle.
+   - The MPC has time to plan around it.
+
+2. `dynamic_obstacle_late_stop`
+   - The obstacle moves into the path late.
+   - The proximity speed limiter slows longitudinal velocity as distance decreases.
+   - The vehicle latches a stop at 1.0 m from the obstacle center.
+
+Run:
+
+```bash
+python run_dynamic_obstacle_scenarios.py
+```
+
+This writes static plots and replay GIFs to `out/`.

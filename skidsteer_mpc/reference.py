@@ -66,3 +66,16 @@ class ConstantRadiusCircle(ReferencePath):
         xg = self.radius * np.sin(th)
         yg = self.radius * (1.0 - np.cos(th))
         return xg, yg
+    
+class SinusoidalTrack(ReferencePath):
+    """Sinusoidal curved track: y = amplitude * sin(2*pi*x / wavelength)."""
+    def __init__(self, v_target, amplitude=1.2, wavelength=12.0, length=35.0):
+        self.amplitude = amplitude
+        self.wavelength = wavelength
+        self.length = length
+        super().__init__(v_target)
+
+    def _xy_grid(self):
+        xg = np.linspace(0.0, self.length, 6000)
+        yg = self.amplitude * np.sin(2.0 * np.pi * xg / self.wavelength)
+        return xg, yg
